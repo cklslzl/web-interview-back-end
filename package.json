@@ -1,0 +1,23 @@
+{
+  "name": "web-interview-back-end",
+  "version": "1.0.0",
+  "description": "前端面试题后端接口",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/cklslzl/web-interview-back-end.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cklslzl/web-interview-back-end/issues"
+  },
+  "homepage": "https://github.com/cklslzl/web-interview-back-end#readme",
+  "dependencies": {
+    "readline-sync": "^1.4.10"
+  }
+}
