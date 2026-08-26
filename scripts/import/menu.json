@@ -1,0 +1,161 @@
+{
+  "category": "web-interview",
+  "data": [
+    {
+      "id": "1",
+      "path": "/Basic",
+      "name": "Basic",
+      "title": "基础",
+      "children": [
+        {
+          "id": "1_1",
+          "path": "/Basic/1_1_HTML",
+          "name": "HTML",
+          "title": "HTML"
+        },
+        {
+          "id": "1_2",
+          "path": "/Basic/1_2_CSS",
+          "name": "CSS",
+          "title": "CSS"
+        },
+        {
+          "id": "1_3",
+          "path": "/Basic/1_3_JS",
+          "name": "JS",
+          "title": "JS"
+        },
+        {
+          "id": "1_4",
+          "path": "/Basic/1_4_ES6Plus",
+          "name": "ES6+",
+          "title": "ES6+"
+        },
+        {
+          "id": "1_5",
+          "path": "/Basic/1_5_TS",
+          "name": "TS",
+          "title": "TS"
+        },
+        {
+          "id": "1_6",
+          "path": "/Basic/1_6_SCSS",
+          "name": "SCSS",
+          "title": "SCSS"
+        },
+        {
+          "id": "1_7",
+          "path": "/Basic/1_7_Vue3",
+          "name": "Vue3",
+          "title": "Vue3"
+        },
+        {
+          "id": "1_8",
+          "path": "/Basic/1_8_VueRouter",
+          "name": "VueRouter",
+          "title": "VueRouter"
+        },
+        {
+          "id": "1_9",
+          "path": "/Basic/1_9_Miniprogram",
+          "name": "Miniprogram",
+          "title": "小程序"
+        },
+        {
+          "id": "1_10",
+          "path": "/Basic/1_10_Electron",
+          "name": "electron",
+          "title": "electron"
+        },
+        {
+          "id": "1_11_NodeJs",
+          "path": "/Basic/1_11_NodeJs",
+          "name": "NodeJs",
+          "title": "NodeJs"
+        },
+        {
+          "id": "1_12_NestJs",
+          "path": "/Basic/1_12_NestJs",
+          "name": "NestJs",
+          "title": "NestJs"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "path": "/Forward",
+      "name": "Forward",
+      "title": "进阶",
+      "children": [
+        {
+          "id": "2_1",
+          "path": "/Forward/2_1_Axios",
+          "name": "Axios",
+          "title": "Axios"
+        },
+        {
+          "id": "2_2",
+          "path": "/Forward/2_2_WebUI",
+          "name": "WebUI",
+          "title": "WebUI库"
+        },
+        {
+          "id": "2_3",
+          "path": "/Forward/2_3_MobileUI",
+          "name": "MobileUI",
+          "title": "MobileUI库"
+        },
+        {
+          "id": "2_4",
+          "path": "/Forward/2_4_JSUtils",
+          "name": "JSUtils",
+          "title": "JS工具库"
+        },
+        {
+          "id": "2_5",
+          "path": "/Forward/2_5_Echarts",
+          "name": "Echarts",
+          "title": "Echarts"
+        },
+        {
+          "id": "2_6",
+          "path": "/Forward/2_6_BMap",
+          "name": "BMap",
+          "title": "BMap"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "path": "/Advance",
+      "name": "Advance",
+      "title": "高级",
+      "children": [
+        {
+          "id": "3_1",
+          "path": "/Advance/3_1_Project",
+          "name": "Project",
+          "title": "项目实战"
+        },
+        {
+          "id": "3_2",
+          "path": "/Advance/3_2_CompositeInterview",
+          "name": "CompositeInterview",
+          "title": "综合面试"
+        },
+        {
+          "id": "3_3",
+          "path": "/Advance/3_3_Engineering",
+          "name": "Engineering",
+          "title": "工程化"
+        },
+        {
+          "id": "3_4",
+          "path": "/Advance/3_4_Architecture",
+          "name": "Architecture",
+          "title": "架构"
+        }
+      ]
+    }
+  ]
+}

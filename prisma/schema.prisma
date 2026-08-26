@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model questions {
+  id               String                @id @db.VarChar(20)
+  category         String                @db.VarChar(50)
+  question         String                @db.Text
+  standard_answers standard_answers[]
+  interviewee_answers interviewee_answers[]
+  updated_at       DateTime              @default(now()) @updatedAt
+
+  @@map("questions")
+}
+
+model standard_answers {
+  id          Int       @id @default(autoincrement())
+  question_id String    @db.VarChar(20)
+  answer      String    @db.LongText
+  questions   questions @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([question_id])
+  @@map("standard_answers")
+}
+
+model interviewee_answers {
+  id          Int       @id @default(autoincrement())
+  question_id String    @db.VarChar(20)
+  name        String    @db.VarChar(50)
+  score       Int?
+  evaluation  String    @db.LongText
+  answer      String    @db.LongText
+  questions   questions @relation(fields: [question_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([question_id])
+  @@map("interviewee_answers")
+}
+
+model web_menu_list {
+  id        Int    @id @default(autoincrement())
+  parent_id String @default("0") @db.VarChar(50)
+  category  String @db.VarChar(50)
+  menu_id   String @db.VarChar(50)
+  path      String @db.VarChar(255)
+  name      String @db.VarChar(100)
+  title     String @db.VarChar(100)
+  sort      Int?   @default(0)
+
+  @@unique([category, menu_id], name: "idx_category_menu_id", map: "idx_category_menu_id")
+  @@map("web_menu_list")
+}
+
+model users {
+  id         String   @id @default(cuid())
+  username   String   @unique @db.VarChar(50)
+  password   String   @db.VarChar(255)
+  role       String   @db.VarChar(20)
+  phone      String   @unique @db.VarChar(20)
+  email      String   @unique @db.VarChar(100)
+  status     Int      @default(1)
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  @@map("users")
+}
+
+model email_codes {
+  id         Int      @id @default(autoincrement())
+  email      String   @db.VarChar(100)
+  code       String   @db.VarChar(10)
+  type       String   @db.VarChar(20)
+  used       Int      @default(0)
+  created_at DateTime @default(now())
+  expired_at DateTime
+
+  @@map("email_codes")
+}

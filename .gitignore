@@ -1,3 +1,5 @@
+/generated/prisma
+
 # Logs
 logs
 *.log
@@ -15,7 +17,7 @@ coverage
 *.local
 
 # Editor directories and files
-.vscode/*
+.vscode
 !.vscode/extensions.json
 .idea
 *.suo
@@ -23,20 +25,3 @@ coverage
 *.njsproj
 *.sln
 *.sw?
-
-*.tsbuildinfo
-
-.eslintcache
-
-# Cypress
-/cypress/videos/
-/cypress/screenshots/
-
-# Vitest
-__screenshots__/
-
-# Vite
-*.timestamp-*-*.mjs
-
-# 排除自动生成的类型文件
-typed-router.d.ts

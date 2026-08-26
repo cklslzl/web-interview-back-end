@@ -1,0 +1,347 @@
+[
+  {
+    "id": "13001",
+    "category": "JS",
+    "question": "简述JavaScript的基本数据类型有哪些？"
+  },
+  {
+    "id": "13002",
+    "category": "JS",
+    "question": "说说null和undefined的区别？"
+  },
+  {
+    "id": "13003",
+    "category": "JS",
+    "question": "typeof 运算符的返回值有哪些？存在什么局限性？"
+  },
+  {
+    "id": "13004",
+    "category": "JS",
+    "question": "instanceof 的原理是什么？用来解决什么问题？"
+  },
+  {
+    "id": "13005",
+    "category": "JS",
+    "question": "说说JavaScript中的堆栈数据结构区别？基本类型和引用类型存储方式？"
+  },
+  {
+    "id": "13006",
+    "category": "JS",
+    "question": "什么是隐式类型转换？常见的转换场景有哪些？"
+  },
+  {
+    "id": "13007",
+    "category": "JS",
+    "question": "== 和 === 的区别？分别适用什么场景？"
+  },
+  {
+    "id": "13008",
+    "category": "JS",
+    "question": "false、0、-0、NaN 、''、null、undefined在布尔转换中分别是什么结果？"
+  },
+  {
+    "id": "13009",
+    "category": "JS",
+    "question": "说说NaN的特性，如何准确判断一个值是NaN？"
+  },
+  {
+    "id": "13010",
+    "category": "JS",
+    "question": "Infinity 和 -Infinity 的含义及判断方式？"
+  },
+  {
+    "id": "13011",
+    "category": "JS",
+    "question": "JavaScript 变量提升的原理是什么？"
+  },
+  {
+    "id": "13012",
+    "category": "JS",
+    "question": "var 声明变量的特点，存在哪些问题？"
+  },
+  {
+    "id": "13013",
+    "category": "JS",
+    "question": "什么是函数提升？变量提升和函数提升的优先级？"
+  },
+  {
+    "id": "13014",
+    "category": "JS",
+    "question": "简述JavaScript的作用域分类？全局作用域和函数作用域区别？"
+  },
+  {
+    "id": "13015",
+    "category": "JS",
+    "question": "什么是作用域链？作用域链的查找规则？"
+  },
+  {
+    "id": "13016",
+    "category": "JS",
+    "question": "什么是闭包？闭包的形成条件、优缺点及使用场景？"
+  },
+  {
+    "id": "13017",
+    "category": "JS",
+    "question": "如何解决闭包造成的内存泄漏问题？"
+  },
+  {
+    "id": "13018",
+    "category": "JS",
+    "question": "this 关键字在不同调用场景下的指向分别是什么？"
+  },
+  {
+    "id": "13019",
+    "category": "JS",
+    "question": "call、apply、bind 三个方法的作用和区别？"
+  },
+  {
+    "id": "13020",
+    "category": "JS",
+    "question": "手写实现call方法的核心思路？"
+  },
+  {
+    "id": "13021",
+    "category": "JS",
+    "question": "手写实现apply方法的核心思路？"
+  },
+  {
+    "id": "13022",
+    "category": "JS",
+    "question": "手写实现bind方法的核心思路？"
+  },
+  {
+    "id": "13023",
+    "category": "JS",
+    "question": "什么是原型和原型对象？prototype的作用？"
+  },
+  {
+    "id": "13024",
+    "category": "JS",
+    "question": "什么是隐式原型__proto__？和prototype的区别与联系？"
+  },
+  {
+    "id": "13025",
+    "category": "JS",
+    "question": "原型链的查找机制是什么？"
+  },
+  {
+    "id": "13026",
+    "category": "JS",
+    "question": "JavaScript 如何实现继承？列举原生继承方式？"
+  },
+  {
+    "id": "13027",
+    "category": "JS",
+    "question": "构造函数的特点是什么？new关键字的执行过程？"
+  },
+  {
+    "id": "13028",
+    "category": "JS",
+    "question": "什么是原生对象、内置对象、自定义对象？分别举例？"
+  },
+  {
+    "id": "13029",
+    "category": "JS",
+    "question": "Object、Function、Array 三者的原型关系？"
+  },
+  {
+    "id": "13030",
+    "category": "JS",
+    "question": "说说JavaScript的垃圾回收机制原理？"
+  },
+  {
+    "id": "13031",
+    "category": "JS",
+    "question": "常见的JavaScript内存泄漏场景有哪些？如何规避？"
+  },
+  {
+    "id": "13032",
+    "category": "JS",
+    "question": "JavaScript 执行上下文是什么？分为哪几种？"
+  },
+  {
+    "id": "13033",
+    "category": "JS",
+    "question": "执行栈的执行机制是什么？先进后出的特点？"
+  },
+  {
+    "id": "13034",
+    "category": "JS",
+    "question": "什么是同步任务和异步任务？JavaScript单线程的理解？"
+  },
+  {
+    "id": "13035",
+    "category": "JS",
+    "question": "常见的JS异步场景有哪些？"
+  },
+  {
+    "id": "13036",
+    "category": "JS",
+    "question": "setTimeout 的执行机制是什么？为什么会有延迟误差？"
+  },
+  {
+    "id": "13037",
+    "category": "JS",
+    "question": "说说JS事件循环的基础执行流程？"
+  },
+  {
+    "id": "13038",
+    "category": "JS",
+    "question": "数组常用原生方法有哪些？区分修改原数组和不修改原数组的方法？"
+  },
+  {
+    "id": "13039",
+    "category": "JS",
+    "question": "如何实现数组去重？"
+  },
+  {
+    "id": "13040",
+    "category": "JS",
+    "question": "数组slice和splice方法的区别？各自用途？"
+  },
+  {
+    "id": "13041",
+    "category": "JS",
+    "question": "split、join、concat 方法的作用和使用场景？"
+  },
+  {
+    "id": "13042",
+    "category": "JS",
+    "question": "字符串常用操作方法有哪些？"
+  },
+  {
+    "id": "13043",
+    "category": "JS",
+    "question": "Math对象常用原生方法及用途？"
+  },
+  {
+    "id": "13044",
+    "category": "JS",
+    "question": "Date对象如何获取当前时间、时间戳？时间格式化思路？"
+  },
+  {
+    "id": "13045",
+    "category": "JS",
+    "question": "什么是递归？递归的优缺点及使用注意事项？"
+  },
+  {
+    "id": "13046",
+    "category": "JS",
+    "question": "递归实现阶乘、斐波那契数列的核心思路？"
+  },
+  {
+    "id": "13047",
+    "category": "JS",
+    "question": "JS 函数的参数传递方式是值传递还是引用传递？"
+  },
+  {
+    "id": "13048",
+    "category": "JS",
+    "question": "arguments 对象的作用和特点？"
+  },
+  {
+    "id": "13049",
+    "category": "JS",
+    "question": "什么是惰性函数？适用场景是什么？"
+  },
+  {
+    "id": "13050",
+    "category": "JS",
+    "question": "什么是函数节流和防抖？原生JS如何实现基础版本？"
+  },
+  {
+    "id": "13051",
+    "category": "JS",
+    "question": "如何遍历对象的属性？for...in、Object.keys、Object.getOwnPropertyNames 的区别？"
+  },
+  {
+    "id": "13052",
+    "category": "JS",
+    "question": "什么是浅拷贝和深拷贝？如何实现深拷贝？"
+  },
+  {
+    "id": "13053",
+    "category": "JS",
+    "question": "JSON.stringify 和 JSON.parse 的作用？使用时有哪些注意事项？"
+  },
+  {
+    "id": "13054",
+    "category": "JS",
+    "question": "正则表达式中常用的元字符有哪些？分别代表什么含义？"
+  },
+  {
+    "id": "13055",
+    "category": "JS",
+    "question": "JavaScript 中的错误处理机制是什么？try-catch-finally 的执行顺序？"
+  },
+  {
+    "id": "13056",
+    "category": "JS",
+    "question": "throw 和 Error 的区别？如何自定义错误类型？"
+  },
+  {
+    "id": "13057",
+    "category": "JS",
+    "question": "setInterval 和 setTimeout 的区别？使用 setInterval 有什么风险？"
+  },
+  {
+    "id": "13058",
+    "category": "JS",
+    "question": "如何实现定时器的精准执行？clearTimeout 和 clearInterval 的作用？"
+  },
+  {
+    "id": "13059",
+    "category": "JS",
+    "question": "JavaScript 中有哪些类型检测方法？各自的优缺点？"
+  },
+  {
+    "id": "13060",
+    "category": "JS",
+    "question": "isNaN 和 Number.isNaN 的区别？"
+  },
+  {
+    "id": "13061",
+    "category": "JS",
+    "question": "void 0 和 undefined 的区别？为什么常用 void 0 代替 undefined？"
+  },
+  {
+    "id": "13062",
+    "category": "JS",
+    "question": "逗号运算符的作用和使用场景？"
+  },
+  {
+    "id": "13063",
+    "category": "JS",
+    "question": "delete 运算符的作用？删除数组元素和对象属性的区别？"
+  },
+  {
+    "id": "13064",
+    "category": "JS",
+    "question": "JavaScript 中的命名规范有哪些？为什么要遵循命名规范？"
+  },
+  {
+    "id": "13065",
+    "category": "JS",
+    "question": "什么是立即执行函数表达式(IIFE)？有什么作用？"
+  },
+  {
+    "id": "13066",
+    "category": "JS",
+    "question": "如何判断一个对象是否为空对象？"
+  },
+  {
+    "id": "13067",
+    "category": "JS",
+    "question": "如何获取函数的参数个数？函数的 length 属性表示什么？"
+  },
+  {
+    "id": "13068",
+    "category": "JS",
+    "question": "什么是时间戳？如何获取当前时间戳？时间戳和日期对象如何转换？"
+  },
+  {
+    "id": "13069",
+    "category": "JS",
+    "question": "encodeURI 和 encodeURIComponent 的区别？分别适用什么场景？"
+  }
+]

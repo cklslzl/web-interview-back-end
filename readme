@@ -1,0 +1,541 @@
+# NestJs + Prisma 全栈项目（菜单 + 题库系统）README
+
+## 一、项目介绍
+
+本项目是基于 NestJs + TypeScript + Prisma 开发的后端服务，集成菜单管理和题库管理两大核心功能，采用企业级多环境配置、安全的数据库密码管理方式，结构规范、可扩展，适配团队协作开发。
+
+核心功能：
+
+- 菜单管理：获取系统菜单列表、菜单分类筛选、模糊搜索、批量保存菜单
+
+- 题库管理：题目列表（分类 + 分页）、题目详情、JSON 批量导入题目、JSON 导入单题详情
+
+## 二、环境准备
+
+### 1. 依赖安装
+
+项目使用 pnpm 管理依赖，安装前确保已安装 Node.js（建议 v16+）和 pnpm。
+
+```bash
+# 安装所有依赖
+pnpm install
+```
+
+### 2. Prisma 客户端生成（必执行）
+
+项目已全面废弃 mysql2，统一使用 Prisma 作为数据库 ORM；安装依赖后必须执行生成类型客户端：
+
+```bash
+# 生成 Prisma 客户端
+pnpm db:generate
+```
+
+说明：每次修改 prisma/schema.prisma 表结构、字段后，都需要重新执行该命令刷新 TS 类型。
+
+
+### 3. 数据库准备
+
+使用Prisma生成仓库和表到MySQL,注意：执行命令前请在.env配置好完整的DATABASE_URL变量，
+如：DATABASE_URL="mysql://root:123456@localhost:3306/express_fullstack_db"，
+执行完之后可以把//后面的内容删除，只需保留DATABASE_URL="mysql://"即可，后续会读取不同环境的数据库连接字符串；
+```bash
+# 使用Prisma生成仓库和表到MySQL
+pnpm db:push
+```
+
+项目使用 MySQL 数据库，已统一使用数据库 express_fullstack_db，包含以下表：
+
+- web_menu_list：菜单表（菜单管理功能）
+
+- questions：题目主表
+
+- standard_answers：题目标准答案表
+
+- interviewee_responses：面试者回答主表
+
+- interviewee_response_details：面试者回答明细表
+
+说明：已从原 `front_dev_db` 数据库合并所有题库相关表，无需额外创建表结构。
+
+### 3. 环境变量配置
+
+项目支持多环境配置，根目录下需保留以下 3 个环境变量文件：
+
+```plain text
+.env.development  # 本地开发环境（本地数据库）
+.env.test         # 测试环境（测试服务器数据库）
+.env.production   # 生产环境（线上服务器数据库）
+```
+
+环境变量文件格式（以 .env.development 为例）：
+
+```env
+# 数据库配置
+DB_HOST=localhost
+DB_USER=root
+DB_PORT=3306
+DB_NAME=express_fullstack_db
+
+# 服务配置
+PORT=3000
+SERVER_COMMON_TITLE=Express 全栈项目
+SERVER_TITLE=开发环境（express）
+```
+
+注意：**DB_PASSWORD 不写入任何环境文件**，启动时手动输入，仅存于内存，保障数据库密码安全。
+
+## 三、项目启动
+
+### 1. 启动命令（package.json 快捷脚本）
+
+```bash
+# 本地开发环境启动（默认 NODE_ENV=development）
+pnpm dev
+
+# 测试环境启动
+pnpm dev:test
+
+# 生产环境启动
+pnpm dev:prod
+```
+
+### 2. 启动流程
+
+1. 执行启动命令后，终端会提示输入 MySQL 密码（输入时隐藏，仅存于内存）；
+
+2. 密码输入正确后，自动连接数据库，启动服务；
+
+3. 服务启动成功后，终端会输出当前环境、服务端口、数据库信息，访问地址：http://localhost:3000。
+
+## 四、题库数据导入
+
+项目支持通过 JSON 文件批量导入题目和单题详情，根目录下 scripts 文件夹存放导入脚本，package.json 已配置快捷命令：
+
+### 1. 批量导入题目
+
+```bash
+# 执行批量导入问题列表（读取 mock/questions.json 文件）
+pnpm import-qs
+```
+
+要求：JSON 文件格式需与 questions 表字段对应，包含 id、category、question 三个核心字段。
+
+### 2. 导入单题详情
+
+```bash
+# 执行单题详情导入（读取 mock/question.json 文件）
+pnpm import-qd
+```
+
+要求：JSON 文件需包含完整题目信息，包括 id、category、question、standard_answers、responders 字段。
+
+### 注意事项
+
+- 导入前需确保服务已启动（pnpm dev）；
+
+- JSON 文件路径固定为 /scripts/import 文件夹下，文件名不可随意修改；
+
+- 导入时若题目 id 已存在，会自动更新该题信息，不会重复插入。
+
+## 五、接口清单（统一前缀 /api）
+
+|请求方式|接口路径|接口描述|参数说明|
+|---|---|---|---|
+|GET|/api/menu/list|获取菜单列表|category（必传，菜单分类） 示例：/api/menu/list?category=web-interview
+|POST|/api/menu/batch-save|批量保存菜单|请求体为json数据，必传category字段，data为数组包含 id、path、name、title 字段 
+|GET|/api/questions|获取题目列表（分类+分页）|category（可选，题目分类）、pageNum（可选，默认1）、pageSize（可选，默认10） 示例：/api/questions?category=HTML5&pageNum=1&pageSize=10
+|GET|/api/questions/detail|获取题目详情|id（必选，题目id） 示例：/api/questions/detail?id=1_1_2
+|POST|/api/questions/batch-save|批量保存题目|请求体为数组，包含 id、category、question 字段 
+|POST|/api/questions/save-detail|保存单题详情|请求体包含 id、category、question、standard_answers、responders 字段 
+
+## 六、项目结构说明
+
+```plain text
+src/
+├── app.controller.ts
+├── app.module.ts
+├── main.ts
+│
+# 全局公共层
+├── common/
+│   ├── cache/
+│   │   ├── cache.controller.ts            # 缓存控制器
+│   │   ├── cache.module.ts                # 缓存模块
+│   │   └── cache.service.ts               # 缓存服务
+│   │
+│   ├── configs/
+│   │   └── database.config.ts             # 数据库配置
+│   │
+│   ├── constants/
+│   │   ├── app.constant.ts                # 应用全局常量
+│   │   └── api.constant.ts                # 接口地址常量
+│   │
+│   ├── middleware/
+│   │   └── global.middleware.ts           # 全局中间件（日志、404）
+│   │
+│   ├── schedule/
+│   │   ├── schedule.module.ts             # 定时任务模块
+│   │   └── schedule.service.ts            # 定时任务服务
+│   │
+│   └── utils/
+│       ├── process-pool.ts                # 进程池工具类（不加后缀）
+│       ├── response.ts                    # 统一响应工具（不加后缀）
+│       └── worker-pool.ts                 # 工作线程池工具类（不加后缀）
+│
+# 全局类型（非业务私有）
+├── types/
+│   ├── common.types.ts                    # 全局通用类型（复数后缀固定）
+│   └── pool.types.ts                      # 进程池、工作线程池类型
+│
+# 业务模块（Nest 标准模块化）
+├── modules/
+│   ├── menu/
+│   │   ├── menu.module.ts
+│   │   ├── menu.controller.ts
+│   │   ├── menu.service.ts
+│   │   ├── dto/
+│   │   │   └── menu.dto.ts
+│   │   └── types/
+│   │       └── menu.types.ts           # 模块内私有类型
+│   └── question/
+│       ├── question.module.ts
+│       ├── question.controller.ts
+│       ├── question.service.ts
+│       ├── dto/
+│       │   └── question.dto.ts
+│       └── types/
+│           └── question.types.ts
+│
+# 示例代码
+└── demos/
+    ├── basic/
+    ├── forward/
+    ├── mock/
+    └── index.ts
+
+# 数据库初始化脚本
+scripts/
+│   └── import/
+│       ├── questions.json
+│       ├── question-detail.json
+│       ├── menu.json
+│       └── cache.json
+├── import-questions.js
+├── import-question-detail.js
+├── import-menu.js
+├── refresh-cache.js
+└── init-admin.ts
+.env.development                      # 开发环境变量（本地）
+.env.test                             # 测试环境变量
+.env.production                       # 生产环境变量
+eslint.config.ts                      # ESLint 配置文件
+jest.config.ts                        # Jest 配置文件
+package.json                          # 项目依赖和快捷脚本
+prisma.config.ts                      # Prisma 配置文件，指定数据库连接字符串
+tsconfig.base.json                    # 配置文件（包含全局选项）
+tsconfig.json                         # TypeScript 配置
+```
+
+## 七、注意事项
+
+- 环境变量文件（.env.*）配置敏感信息后不可提交至 Git，需加入 .gitignore，避免数据库地址、账号泄露；
+
+-  .env 文件中必须配置DATABASE_URL环境变量，否则pnpm db:generate 会报错，直接配DATABASE_URL="mysql://"即可，后续会读取不同环境的数据库连接字符串；
+
+- 启动服务前，需确保 MySQL 服务已启动，且数据库 express_fullstack_db 已提前创建；
+
+- 导入数据时，需确保 JSON 文件格式正确，否则会导致导入失败；
+
+- 开发遵循项目命名规范：控制器、路由文件不加冗余后缀，保持目录结构干净简洁；
+
+- 新增接口统一挂载 /api 前缀，路由放入 routes 文件夹，业务逻辑放入 controllers 文件夹；
+
+- 项目已完全移除 mysql2 依赖，所有数据库操作统一使用 Prisma，禁止再手写 SQL 拼接语句；
+
+- 修改 schema.prisma 表结构后，务必执行 npx prisma generate 刷新 TS 类型，避免报红。
+
+## 八、常见问题
+
+1. 启动服务报错 “MySQL 连接失败”：检查 MySQL 服务是否启动、环境变量中 DB_HOST/DB_USER/DB_PORT 是否正确，密码输入是否正确；
+
+2. 导入数据报错 “接口调用失败”：检查服务是否已启动，JSON 文件路径和格式是否正确；
+
+3. 接口访问报错 404：检查接口路径是否正确，确保路由已在 index.ts 中注册；若为菜单接口报错，检查 routes/menu.ts 和 controllers/menu.ts 文件是否存在、命名是否正确，以及 controllers/menu.ts 中是否存在 getMenuList 方法；
+
+4. 类型报错 “WebMenuRow 不存在”：检查 src/types/menu.ts 中类型是否已改为 MenuRow，且相关引入处已同步修改。
+
+> （注：文档部分内容可能由 AI 生成）
+
+## 九、数据库(mysql)常用语句和Prisma(typescript)示例
+
+### 查询语句
+
+1、查询表中所有数据
+```sql
+# 查询web_menu_list所有数据
+SELECT * FROM web_menu_list
+```
+
+```typescript
+// Prisma 写法
+const list = await prisma.web_menu_list.findMany();
+console.log('查询结果:', list);
+```
+
+2、查询表中指定字段的所有唯一值
+```sql
+# 查询web_menu_list所有分类
+SELECT DISTINCT category FROM web_menu_list
+```
+
+```typescript
+// 查询web_menu_list所有分类
+const list = await prisma.web_menu_list.findMany({
+  select: { category: true },
+  distinct: ['category']
+});
+console.log('查询结果:', list);
+```
+
+3、根据指定字段查询数据
+```sql
+# 查询web_menu_list指定分类下的所有菜单
+SELECT * FROM web_menu_list WHERE category = 'scss'
+```
+
+```typescript
+// 查询web_menu_list指定分类下的所有菜单
+const list = await prisma.web_menu_list.findMany({
+  where: { category: 'scss' }
+});
+console.log('查询结果:', list);
+```
+
+4、根据字段模糊查询
+```sql
+# 查询web_menu_list指定字段包含指定字符串的所有菜单
+SELECT * FROM web_menu_list WHERE name LIKE '%install%'
+```
+
+```typescript
+// 查询web_menu_list指定字段包含指定字符串的所有菜单
+const list = await prisma.web_menu_list.findMany({
+  where: { name: { contains: 'install' } }
+});
+console.log('查询结果:', list);
+```
+
+5、查询数据并排序
+```sql
+# 查询web_menu_list所有数据，按分类排序，然后按menu_id排序
+SELECT * FROM web_menu_list ORDER BY category ASC, menu_id ASC
+```
+
+```typescript
+// 查询web_menu_list所有数据，按分类排序，然后按menu_id排序
+const list = await prisma.web_menu_list.findMany({
+  orderBy: [
+    { category: 'asc' },
+    { menu_id: 'asc' }
+  ]
+});
+console.log('查询结果:', list);
+```
+
+6、查询数据并排序，分页查询
+```sql
+# 查询web_menu_list所有数据，按分类排序，然后按menu_id排序，第1页，每页10条
+SELECT * FROM web_menu_list ORDER BY category ASC, menu_id ASC LIMIT 10 OFFSET 0
+```
+
+```typescript
+// 查询web_menu_list所有数据，按分类排序，然后按menu_id排序，第1页，每页10条
+const list = await prisma.web_menu_list.findMany({
+  orderBy: [{ category: 'asc' }, { menu_id: 'asc' }],
+  skip: 0,
+  take: 10
+});
+console.log('查询结果:', list);
+```
+
+7、查询数据总条数
+```sql
+# 查询web_menu_list所有数据的总条数
+SELECT COUNT(*) FROM web_menu_list
+# 查询web_menu_list指定分类的所有菜单的总条数
+SELECT COUNT(*) FROM web_menu_list WHERE category = 'scss'
+```
+
+```typescript
+// 查询web_menu_list全表总数
+const total = await prisma.web_menu_list.count();
+console.log('查询结果:', total);
+```
+
+```typescript
+// 查询web_menu_list条件总数
+const totalByCat = await prisma.web_menu_list.count({
+  where: { category: 'scss' }
+});
+console.log('查询结果:', totalByCat);
+```
+
+8、多条件查询 AND / OR
+```sql
+# 查询web_menu_list指定分类下的所有菜单，menu_id包含指定字符串
+SELECT * FROM web_menu_list WHERE category = 'scss' AND menu_id LIKE '%1%'
+# 查询web_menu_list指定分类下的所有菜单或title包含指定字符的菜单
+SELECT * FROM web_menu_list WHERE category = 'scss' OR title LIKE '%安装%'
+```
+
+```typescript
+// 查询web_menu_list指定分类下的所有菜单，menu_id包含指定字符串
+const list = await prisma.web_menu_list.findMany({
+  where: {
+    category: 'scss',
+    menu_id: { contains: '1' }
+  }
+});
+console.log('查询结果:', list);
+```
+
+```typescript
+// 查询web_menu_list指定分类下的所有菜单或title包含指定字符的菜单
+const list = await prisma.web_menu_list.findMany({
+  where: {
+    OR: [
+      { category: 'scss' },
+      { title: { contains: '安装' } }
+    ]
+  }
+});
+console.log('查询结果:', list);
+```
+
+9、查询指定字段的所有值
+```sql
+# 查询web_menu_list表中menu_id,title,category字段的所有值
+SELECT menu_id, title, category FROM web_menu_list
+```
+
+```typescript
+// 查询web_menu_list表中menu_id,title,category字段的所有值
+const list = await prisma.web_menu_list.findMany({
+  select: {
+    menu_id: true,
+    title: true,
+    category: true
+  }
+});
+console.log('查询结果:', list);
+```
+
+### 插入语句
+
+1、插入单条数据
+```sql
+# 插入web_menu_list表中指定字段的值
+INSERT INTO web_menu_list (parent_id, category, menu_id, path, name, title, sort) 
+VALUES ('0', 'scss', '1002_1001', '/install/test2', 'Test2', '测试菜单2', 60);
+```
+
+```typescript
+// 插入单条数据
+const result = await prisma.web_menu_list.create({
+  data: {
+    parent_id: '0',
+    category: 'scss',
+    menu_id: '1002_1001',
+    path: '/install/test2',
+    name: 'Test2',
+    title: '测试菜单2',
+    sort: 60
+  }
+});
+console.log('插入结果:', result);
+```
+
+2、插入多条数据
+```sql
+# 插入web_menu_list表中指定字段的值
+INSERT INTO web_menu_list (parent_id, category, menu_id, path, name, title, sort) 
+VALUES 
+('0', 'scss', '1002_1003', '/install/test2', 'Test2', '测试菜单3', 60),
+('0', 'scss', '1002_1004', '/install/test2', 'Test2', '测试菜单4', 60),
+('0', 'scss', '1002_1005', '/install/test2', 'Test2', '测试菜单5', 60);
+```
+
+```typescript
+// 插入多条数据
+// 批量插入多条数据（等价于 mysql2 批量插入）
+const values = [
+  { parent_id: '0', category: 'scss', menu_id: '1002_1003', path: '/install/test2', name: 'Test2', title: '测试菜单3', sort: 60 },
+  { parent_id: '0', category: 'scss', menu_id: '1002_1004', path: '/install/test2', name: 'Test2', title: '测试菜单4', sort: 60 },
+  { parent_id: '0', category: 'scss', menu_id: '1002_1005', path: '/install/test2', name: 'Test2', title: '测试菜单5', sort: 60 },
+];
+
+// 批量创建
+const result = await prisma.web_menu_list.createMany({
+  data: values,
+  skipDuplicates: true // 跳过重复数据
+});
+console.log('批量插入结果:', result);
+```
+
+### 修改语句
+
+1、修改单条数据
+```sql
+# 修改web_menu_list表中指定字段的值，根据 menu_id 定位修改
+UPDATE web_menu_list 
+SET 
+  title = '1002_1001标题修改1',
+  name = 'UpdateName',
+  path = '/update/path',
+  sort = 99
+WHERE menu_id = '1002_1001';
+```
+
+```typescript
+// 修改单条数据
+const result = await prisma.web_menu_list.update({
+  where: { menu_id: '1002_1001' },
+  data: {
+    title: '1002_1001标题修改1',
+    name: 'UpdateName',
+    path: '/update/path',
+    sort: 99
+  }
+});
+console.log('修改结果:', result);
+```
+
+### 删除语句
+1、删除单条数据
+```sql
+# 删除web_menu_list表中指定字段的值，根据 menu_id 定位删除
+DELETE FROM web_menu_list WHERE menu_id = '1002_1001';
+```
+
+```typescript
+// 删除单条数据
+const result = await prisma.web_menu_list.delete({
+  where: { menu_id: '1002_1001' }
+});
+console.log('删除结果:', result);
+```
+
+2、删除多条数据
+```sql
+# 删除web_menu_list表中指定字段的值，根据 menu_id 定位删除
+DELETE FROM web_menu_list WHERE menu_id IN ('1002_1003', '1002_1004', '1002_1005');
+```
+```typescript
+// 删除多条数据
+const result = await prisma.web_menu_list.deleteMany({
+  where: {
+    menu_id: { in: ['1002_1003', '1002_1004', '1002_1005'] }
+  }
+});
+console.log('删除结果:', result); // 删除的行数
+```
